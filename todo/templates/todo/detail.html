@@ -22,9 +22,15 @@
       {% endif %}
     </ul>
 
-    <div>
-      <a href="{% url 'index' %}">Top</a>
-    </div>
+<div>
+  <a href="{% url 'index' %}">Top</a>
+  {% if not task.completed %}
+  |<form action="{% url 'close' task.id %}" method="post" style="display:inline;">
+      {% csrf_token %}
+      <button type="submit">Close</button>
+    </form>
+  {% endif %}
+</div>
   </body>
 
 </html>
