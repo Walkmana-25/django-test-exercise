@@ -40,7 +40,12 @@ def detail(request, task_id):
 
 
 def edit(request, task_id):
-      if request.method == "POST":
+    try:
+        task = Task.objects.get(pk=task_id)
+    except Task.DoesNotExist:
+        raise Http404("Task does not exist")
+
+    if request.method == "POST":
         task.title = request.POST.get("title", task.title)
         task.due_at = request.POST.get("due_at", task.due_at)
         task.completed = "completed" in request.POST
@@ -51,8 +56,7 @@ def edit(request, task_id):
     context = {"task": task}
     return render(request, "todo/edit.html", context)
 
-  
-  
+
 def delete(request, task_id):
     try:
         task = Task.objects.get(pk=task_id)
