@@ -37,3 +37,20 @@ def detail(request, task_id):
         "task": task
     }
     return render(request, "todo/detail.html", context)
+
+def edit(request, task_id):
+    try:
+        task = Task.objects.get(pk=task_id)
+    except Task.DoesNotExist:
+        raise Http404("Task does not exist")
+
+    if request.method == "POST":
+        task.title = request.POST.get("title", task.title)
+        task.due_at = request.POST.get("due_at", task.due_at)
+        task.completed = "completed" in request.POST
+        task.save()
+        context = {"task": task, "message": "更新しました"}
+        return render(request, "todo/detail.html", context)
+
+    context = {"task": task}
+    return render(request, "todo/edit.html", context)

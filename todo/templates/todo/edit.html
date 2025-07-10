@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <title>Edit Task</title>
+    <meta charset="UTF-8" />
+    <meta name="author" content="INIAD" />
+  </head>
+  <body>
+    <h1>タスク編集</h1>
+    <form method="post">
+      {% csrf_token %}
+      <div>
+        <label for="titleInput">タイトル</label><br />
+        <input
+          id="titleInput"
+          name="title"
+          type="text"
+          value="{{ task.title }}"
+        />
+      </div>
+      <div>
+        <label for="dueInput">期限</label><br />
+        <input
+          id="dueInput"
+          name="due_at"
+          type="datetime-local"
+          value="{{ task.due_at|date:'Y-m-d\\TH:i' }}"
+        />
+      </div>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            name="completed"
+            {%
+            if
+            task.completed
+            %}checked{%
+            endif
+            %}
+          />
+          完了
+        </label>
+      </div>
+      <div>
+        <button type="submit">保存</button>
+        <a href="{% url 'detail' task.id %}">キャンセル</a>
+      </div>
+    </form>
+  </body>
+</html>

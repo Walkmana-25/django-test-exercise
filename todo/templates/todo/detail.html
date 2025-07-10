@@ -1,11 +1,10 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="ja">
-
   <head>
     <title>To Do Application</title>
-    <meta charset="UTF-8">
-    <meta name="author" content="INIAD">
+    <meta charset="UTF-8" />
+    <meta name="author" content="INIAD" />
   </head>
 
   <body>
@@ -14,8 +13,7 @@
       <li>Posted at: {{ task.posted_at }}</li>
       {% if task.due_at %}
       <li>Due at: {{ task.due_at }}</li>
-      {% endif %}
-      {% if task.completed %}
+      {% endif %} {% if task.completed %}
       <li>Status: Completed</li>
       {% else %}
       <li>Status: Not Completed</li>
@@ -24,7 +22,7 @@
 
     <div>
       <a href="{% url 'index' %}">Top</a>
+      <a href="{% url 'edit' task.id %}">Edit</a>
     </div>
   </body>
-
 </html>
