@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import Http404
 from django.utils.timezone import make_aware
 from django.utils.dateparse import parse_datetime
@@ -38,13 +38,9 @@ def detail(request, task_id):
     }
     return render(request, "todo/detail.html", context)
 
-def edit(request, task_id):
-    try:
-        task = Task.objects.get(pk=task_id)
-    except Task.DoesNotExist:
-        raise Http404("Task does not exist")
 
-    if request.method == "POST":
+def edit(request, task_id):
+      if request.method == "POST":
         task.title = request.POST.get("title", task.title)
         task.due_at = request.POST.get("due_at", task.due_at)
         task.completed = "completed" in request.POST
@@ -54,3 +50,15 @@ def edit(request, task_id):
 
     context = {"task": task}
     return render(request, "todo/edit.html", context)
+
+  
+  
+def delete(request, task_id):
+    try:
+        task = Task.objects.get(pk=task_id)
+    except Task.DoesNotExist:
+        raise Http404("Task does not exist")
+
+    task.delete()
+    return redirect("index")
+

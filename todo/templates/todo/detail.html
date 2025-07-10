@@ -22,7 +22,11 @@
 
     <div>
       <a href="{% url 'index' %}">Top</a>
+
       <a href="{% url 'edit' task.id %}">Edit</a>
+
+      <a href="{% url 'delete' task.id %}">Delete</a>
+
     </div>
   </body>
 </html>
