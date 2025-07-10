@@ -66,3 +66,19 @@ def delete(request, task_id):
     task.delete()
     return redirect("index")
 
+
+def close(request, task_id):
+    try:
+        task = Task.objects.get(pk=task_id)
+    except Task.DoesNotExist:
+        raise Http404("Task does not exist")
+
+    if request.method == "POST":
+        task.completed = True
+        task.save()
+        return redirect("detail", task_id=task.id)
+
+    context = {
+        "task": task
+    }
+    return render(request, "todo/close.html", context)
