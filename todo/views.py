@@ -73,10 +73,12 @@ def close(request, task_id):
     except Task.DoesNotExist:
         raise Http404("Task does not exist")
 
+
     if request.method == "POST":
         task.completed = True
         task.save()
-        return redirect("detail", task_id=task.id)
+        # 完了画像ページへ遷移
+        return render(request, "todo/closed.html")
 
     context = {
         "task": task
