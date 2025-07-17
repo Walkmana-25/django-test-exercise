@@ -1,0 +1,15 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <title>Task Closed</title>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h1>タスクを完了しました</h1>
+    <img src="{% static 'todo/rectangle_large_type_2_35430f9315c017ad9cd0fe1fe9216ccc.png' %}" alt="Closed Image" style="max-width:100%;height:auto;" />
+    <div>
+      <a href="{% url 'index' %}">Topへ戻る</a>
+    </div>
+  </body>
+</html>
