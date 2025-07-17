@@ -4,12 +4,161 @@
   <head>
     <title>Task Closed</title>
     <meta charset="UTF-8" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #fffbe6 0%, #ffe4b5 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Segoe UI', 'ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, sans-serif;
+        /* overflow: hidden; ← この行を削除またはコメントアウト */
+        overflow: auto; /* ← 必要なら追加 */
+      }
+      .petal, .star {
+        position: absolute;
+        pointer-events: none;
+        z-index: 1;
+      }
+      .petal {
+        width: 32px;
+        height: 32px;
+        background: radial-gradient(circle at 60% 40%, #ffd700 80%, #fffbe6 100%);
+        border-radius: 50% 50% 50% 50%/60% 60% 40% 40%;
+        opacity: 0.7;
+        animation: fall 6s linear infinite;
+      }
+      .star {
+        width: 18px;
+        height: 18px;
+        background: none;
+        opacity: 0.8;
+        animation: twinkle 2s infinite alternate;
+      }
+      .star:before, .star:after {
+        content: '';
+        position: absolute;
+        left: 8px;
+        top: 0;
+        width: 2px;
+        height: 18px;
+        background: linear-gradient(#fffbe6, #ffd700 80%);
+        border-radius: 1px;
+      }
+      .star:after {
+        transform: rotate(90deg);
+      }
+      @keyframes fall {
+        0% {
+          transform: translateY(-40px) rotate(0deg) scale(1);
+          opacity: 0.7;
+        }
+        80% {
+          opacity: 0.7;
+        }
+        100% {
+          transform: translateY(100vh) rotate(360deg) scale(0.7);
+          opacity: 0;
+        }
+      }
+      @keyframes twinkle {
+        0% { opacity: 0.5; }
+        100% { opacity: 1; }
+      }
+      h1 {
+        color: #bfa14a;
+        font-size: 2.8rem;
+        margin-bottom: 24px;
+        letter-spacing: 0.1em;
+        text-shadow: 0 2px 8px #fff8dc, 0 0 10px #bfa14a;
+        border-bottom: 4px double #bfa14a;
+        display: inline-block;
+        padding: 0 24px 8px 24px;
+        background: rgba(255,255,255,0.7);
+        border-radius: 16px 16px 0 0;
+        animation: shine 2s infinite alternate;
+        z-index: 2;
+        position: relative;
+      }
+      @keyframes shine {
+        0% { text-shadow: 0 2px 8px #fff8dc, 0 0 10px #bfa14a; }
+        100% { text-shadow: 0 2px 24px #fffbe6, 0 0 24px #ffd700; }
+      }
+      img {
+        border: 6px solid #ffd700;
+        border-radius: 24px;
+        box-shadow: 0 8px 32px #bfa14a55, 0 0 0 8px #fffbe6;
+        margin-bottom: 32px;
+        background: #fffbe6;
+        animation: img-glow 2s infinite alternate;
+        z-index: 2;
+        position: relative;
+      }
+      @keyframes img-glow {
+        0% { box-shadow: 0 8px 32px #bfa14a55, 0 0 0 8px #fffbe6; }
+        100% { box-shadow: 0 8px 48px #ffd70099, 0 0 0 12px #fffbe6; }
+      }
+      a {
+        display: inline-block;
+        margin-top: 16px;
+        padding: 12px 36px;
+        background: linear-gradient(90deg, #ffd700 0%, #fffbe6 100%);
+        color: #7c5c00;
+        font-weight: bold;
+        font-size: 1.2rem;
+        border-radius: 32px;
+        text-decoration: none;
+        box-shadow: 0 4px 16px #bfa14a33;
+        border: 2px solid #bfa14a;
+        transition: background 0.3s, color 0.3s, transform 0.2s;
+        z-index: 2;
+        position: relative;
+      }
+      a:hover {
+        background: linear-gradient(90deg, #fffbe6 0%, #ffd700 100%);
+        color: #bfa14a;
+        transform: scale(1.05);
+        box-shadow: 0 8px 32px #ffd70055;
+      }
+      div {
+        text-align: center;
+        z-index: 2;
+        position: relative;
+      }
+    </style>
   </head>
   <body>
+    <!-- 花びらと星のコンテナ -->
+    <div id="effects"></div>
     <h1>タスクを完了しました</h1>
     <img src="{% static 'todo/rectangle_large_type_2_35430f9315c017ad9cd0fe1fe9216ccc.png' %}" alt="Closed Image" style="max-width:100%;height:auto;" />
     <div>
       <a href="{% url 'index' %}">Topへ戻る</a>
     </div>
+    <script>
+      // 花びらと星をランダムに降らせる
+      const effects = document.getElementById('effects');
+      const width = window.innerWidth;
+      const petalCount = 12;
+      const starCount = 10;
+      for(let i=0;i<petalCount;i++){
+        const petal = document.createElement('div');
+        petal.className = 'petal';
+        petal.style.left = Math.random()*width + 'px';
+        petal.style.animationDelay = (Math.random()*6) + 's';
+        effects.appendChild(petal);
+      }
+      for(let i=0;i<starCount;i++){
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random()*width + 'px';
+        star.style.top = (Math.random()*80+10) + 'vh';
+        star.style.animationDelay = (Math.random()*2) + 's';
+        effects.appendChild(star);
+      }
+    </script>
   </body>
 </html>
